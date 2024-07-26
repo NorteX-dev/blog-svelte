@@ -11,5 +11,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 		userCount: await prisma.user.count(),
 		totalViews: await prisma.post.aggregate({ _sum: { views: true } }).then((res) => res._sum.views)
 	};
-	return { user: locals.user, stats };
+	const posts = await prisma.post.findMany({
+		orderBy: { createdAt: "desc" },
+		include: { user: true }
+	});
+	return { user: locals.user, stats, posts };
 };

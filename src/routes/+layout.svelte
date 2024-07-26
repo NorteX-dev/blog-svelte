@@ -2,7 +2,7 @@
 	import "../app.css";
 </script>
 
-<main class="mx-auto max-w-3xl">
+<main class="mx-auto max-w-3xl max-md:px-2">
 	<nav class="mb-4 flex w-full flex-col items-center justify-between py-8 text-neutral-200 md:flex-row">
 		<a href="/" class="flex-grow">
 			<h1 class="poppins bg-gradient-to-r from-[#ec6f66] to-[#f3a082] bg-clip-text text-2xl font-bold text-transparent">Premier Demo</h1>
