@@ -4,7 +4,7 @@
 This project is a demo trial project for Premier Studios. It is a simple blog application that allows users to create posts and view all posts.
 
 ### Visit the deployed page
-URL: pending
+URL: https://premier-trial.vercel.app/
 
 To login on a regular account use,
 > Username: demo, Password: demo
