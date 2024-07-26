@@ -2,18 +2,20 @@
 	import "../app.css";
 	import type { PageData } from "./$types";
 	import { toast, Toaster } from "svelte-sonner";
-	import { onMount } from "svelte";
+	import { afterNavigate } from "$app/navigation";
 
 	export let data: PageData;
 
-	onMount(() => {
+	let checkToastMessages = () => {
 		if (data.error) toast.error(decodeURIComponent(data.error));
 		else if (data.message) toast.message(decodeURIComponent(data.message));
 		const url = new URL(window.location.href);
 		url.searchParams.delete("m");
 		url.searchParams.delete("e");
 		history.replaceState({}, "", url.toString());
-	});
+	};
+
+	afterNavigate(checkToastMessages);
 </script>
 
 <Toaster richColors expand />

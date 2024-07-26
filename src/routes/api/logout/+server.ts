@@ -12,5 +12,5 @@ export const GET: RequestHandler = async ({ locals, cookies }) => {
 		path: ".",
 		...sessionCookie.attributes
 	});
-	redirect(302, "/#logout");
+	redirect(302, `/?m=${encodeURIComponent("Logged out.")}`);
 };

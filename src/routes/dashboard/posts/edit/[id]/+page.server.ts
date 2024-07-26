@@ -25,9 +25,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 export const actions: Actions = {
 	default: async ({ request, locals, params }) => {
 		if (!locals.user) {
-			return fail(403, {
-				message: "You are not logged in."
-			});
+			return fail(403, { message: "You are not logged in." });
 		}
 
 		let existingPost = await prisma.post.findUnique({
@@ -78,6 +76,6 @@ export const actions: Actions = {
 			}
 		});
 
-		redirect(302, "/dashboard");
+		redirect(302, `/dashboard?m${encodeURIComponent("Post updated successfully.")}`);
 	}
 };

@@ -3,7 +3,7 @@ import { prisma } from "$lib/server/prisma";
 
 export const GET: RequestHandler = async ({ params, locals }) => {
 	if (!locals.user) {
-		redirect(302, "/login");
+		redirect(302, `/dashboard?e=${encodeURIComponent("You are not logged in")}`);
 	}
 
 	let existingPost = await prisma.post.findUnique({
@@ -16,7 +16,7 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 
 	// if not owner of this post           and not admin
 	if (locals.user.id !== existingPost.id && !locals.user.admin) {
-		redirect(302, "/dashboard");
+		redirect(302, `/dashboard?e=${encodeURIComponent("You do not have the rights to delete this post.")}`);
 	}
 
 	let { id } = params;
@@ -27,5 +27,5 @@ export const GET: RequestHandler = async ({ params, locals }) => {
 		})
 		.catch(() => null);
 
-	redirect(302, "/dashboard");
+	redirect(302, `/dashboard?m=${encodeURIComponent("Post deleted successfully.")}`);
 };

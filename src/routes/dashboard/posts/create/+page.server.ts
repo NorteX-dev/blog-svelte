@@ -1,6 +1,6 @@
 import type { PageServerLoad } from "./$types";
 import { fail, redirect } from "@sveltejs/kit";
-import type { Actions } from "../../../../../.svelte-kit/types/src/routes/login/$types";
+import type { Actions } from "./$types";
 import { z } from "zod";
 import { prisma } from "$lib/server/prisma";
 
@@ -52,6 +52,6 @@ export const actions: Actions = {
 			}
 		});
 
-		redirect(302, "/dashboard");
+		redirect(302, `/dashboard?m=${encodeURIComponent("Post created successfully.")}`);
 	}
 };
