@@ -19,5 +19,10 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		redirect(302, "/");
 	}
 
+	await prisma.post.update({
+		where: { id: id },
+		data: { views: post.views + 1 }
+	});
+
 	return { post };
 };

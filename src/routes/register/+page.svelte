@@ -14,7 +14,7 @@
 			type="text"
 			id="username"
 			name="username"
-			class="mb-2 block w-full rounded-lg border-neutral-700 bg-gray-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
+			class="mb-2 block w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
 			value={form?.fields?.username ?? ""}
 		/>
 	</div>
@@ -30,7 +30,7 @@
 			type="text"
 			id="email"
 			name="email"
-			class="mb-2 block w-full rounded-lg border-neutral-700 bg-gray-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
+			class="mb-2 block w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
 			value={form?.fields?.email ?? ""}
 		/>
 	</div>
@@ -46,7 +46,7 @@
 			type="password"
 			id="password"
 			name="password"
-			class="mb-2 block w-full rounded-lg border-neutral-700 bg-gray-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
+			class="mb-2 block w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
 		/>
 	</div>
 	{#if form?.errors?.password}
@@ -61,7 +61,7 @@
 			type="password"
 			id="confirmPassword"
 			name="confirmPassword"
-			class="mb-2 block w-full rounded-lg border-neutral-700 bg-gray-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
+			class="mb-2 block w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
 		/>
 	</div>
 	{#if form?.errors?.confirmPassword}

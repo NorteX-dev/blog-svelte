@@ -1,20 +1,22 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { TrashIcon, XIcon } from "lucide-svelte";
+	import { PencilIcon, TrashIcon } from "lucide-svelte";
 
 	export let data: PageData;
 </script>
 
 <h1 class="text-xl">Welcome, {data.user.username}!</h1>
 
-<div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-	<div class="rounded-lg border border-neutral-700 bg-neutral-900 p-6">
-		<h1 class="text-lg font-medium">Statistics</h1>
-		<p>{data.stats.userCount} registered users</p>
-		<p>{data.stats.postCount} posts</p>
-		<p>{data.stats.totalViews ?? 0} total views</p>
-	</div>
-	<div class="flex flex-col justify-between rounded-lg border border-neutral-700 bg-neutral-900 p-6">
+<div class="mt-4 flex gap-4">
+	{#if data.stats}
+		<div class="flex-grow rounded-lg border border-neutral-700 bg-neutral-900 p-6">
+			<h1 class="text-lg font-medium">Statistics</h1>
+			<p>{data.stats.userCount} registered users</p>
+			<p>{data.stats.postCount} posts</p>
+			<p>{data.stats.totalViews ?? 0} total views</p>
+		</div>
+	{/if}
+	<div class="flex flex-grow flex-col justify-between rounded-lg border border-neutral-700 bg-neutral-900 p-6">
 		<h1 class="text-lg font-medium">Create post</h1>
 		<a class="mt-4 w-full rounded bg-blue-500 px-6 py-2 text-center text-sm font-medium text-white" href="/dashboard/posts/create">
 			Go to creator
@@ -25,7 +27,12 @@
 <div class="mt-4 w-full overflow-x-auto">
 	<div class="min-w-[700px] rounded-xl border border-neutral-700 bg-neutral-900 shadow-sm">
 		<div class="border-b border-neutral-700 px-6 py-4">
-			<h2 class="text-xl font-semibold text-neutral-200">Posts</h2>
+			{#if data.user.admin}
+				<h2 class="text-xl font-semibold text-neutral-200">All Posts</h2>
+				<p class="text-xs text-neutral-400">Since you're admin, you're seeing posts from everyone.</p>
+			{:else}
+				<h2 class="text-xl font-semibold text-neutral-200">Your Posts</h2>
+			{/if}
 		</div>
 		<table class="min-w-full divide-y divide-neutral-700">
 			<thead class="bg-neutral-800">
@@ -62,10 +69,19 @@
 						<td class="whitespace-nowrap px-6 py-3">
 							<span class="text-sm text-neutral-200">{new Intl.DateTimeFormat("en-US").format(post.createdAt)}</span>
 						</td>
-						<td class="flex justify-end whitespace-nowrap px-6 py-3">
-							<button class="aspect-square rounded bg-red-500 p-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-20" disabled>
+						<td class="flex justify-end gap-2 whitespace-nowrap px-6 py-3">
+							<a
+								class="aspect-square rounded bg-blue-500 p-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-20"
+								href="/dashboard/posts/edit/{post.id}"
+							>
+								<PencilIcon size="14" />
+							</a>
+							<a
+								href="/dashboard/posts/delete/{post.id}"
+								class="aspect-square rounded bg-red-500 p-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-20"
+							>
 								<TrashIcon size="14" />
-							</button>
+							</a>
 						</td>
 					</tr>
 				{/each}

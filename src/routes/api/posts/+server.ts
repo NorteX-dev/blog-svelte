@@ -1,15 +1,23 @@
-import type { RequestHandler } from "@sveltejs/kit";
+import { type RequestHandler } from "@sveltejs/kit";
 import { makeJsonResponse } from "$lib/server/util";
 import { prisma } from "$lib/server/prisma";
 import { z } from "zod";
 
-export const GET: RequestHandler = async () => {
-	const posts = await prisma.post.findMany();
+export const GET: RequestHandler = async ({ locals }) => {
+	if (!locals.user) {
+		return makeJsonResponse({ error: "You are not logged in." }, 403);
+	}
+
+	const posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" }, include: { user: true } });
 
 	return makeJsonResponse({ posts });
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+	if (!locals.user) {
+		return makeJsonResponse({ error: "You are not logged in." }, 403);
+	}
+
 	const { title, body } = await request.json();
 
 	const postDto = z.object({
@@ -23,7 +31,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		data: {
 			title: title,
 			body: body,
-			userId: "1"
+			userId: locals.user.id
 		}
 	});
 

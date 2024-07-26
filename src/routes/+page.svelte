@@ -6,7 +6,7 @@
 </script>
 
 {#if data.user}
-	<main>
+	<main class="flex flex-col gap-4">
 		{#if data.posts}
 			{#each data.posts as post}
 				<a href="/{post.id}">

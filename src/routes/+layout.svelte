@@ -1,7 +1,22 @@
-<script>
+<script lang="ts">
 	import "../app.css";
+	import type { PageData } from "./$types";
+	import { toast, Toaster } from "svelte-sonner";
+	import { onMount } from "svelte";
+
+	export let data: PageData;
+
+	onMount(() => {
+		if (data.error) toast.error(decodeURIComponent(data.error));
+		else if (data.message) toast.message(decodeURIComponent(data.message));
+		const url = new URL(window.location.href);
+		url.searchParams.delete("m");
+		url.searchParams.delete("e");
+		history.replaceState({}, "", url.toString());
+	});
 </script>
 
+<Toaster richColors expand />
 <main class="mx-auto max-w-3xl max-md:px-2">
 	<nav class="mb-4 flex w-full flex-col items-center justify-between py-8 text-neutral-200 md:flex-row">
 		<a href="/" class="flex-grow">
@@ -15,12 +30,21 @@
 				<a href="/posts" class="px-4 py-3 hover:underline">Posts</a>
 			</li>
 			<li>
-				<a
-					href="/login"
-					class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-gray-700"
-				>
-					Login
-				</a>
+				{#if data.user}
+					<a
+						href="/dashboard"
+						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-gray-700"
+					>
+						Dashboard
+					</a>
+				{:else}
+					<a
+						href="/login"
+						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-gray-700"
+					>
+						Login
+					</a>
+				{/if}
 			</li>
 		</ul>
 	</nav>

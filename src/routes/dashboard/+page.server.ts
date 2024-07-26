@@ -6,14 +6,22 @@ export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user) {
 		redirect(302, "/login");
 	}
-	let stats = {
-		postCount: await prisma.post.count(),
-		userCount: await prisma.user.count(),
-		totalViews: await prisma.post.aggregate({ _sum: { views: true } }).then((res) => res._sum.views)
-	};
+	if (locals.user.admin) {
+		let stats = {
+			postCount: await prisma.post.count(),
+			userCount: await prisma.user.count(),
+			totalViews: await prisma.post.aggregate({ _sum: { views: true } }).then((res) => res._sum.views)
+		};
+		const allPosts = await prisma.post.findMany({
+			orderBy: { createdAt: "desc" },
+			include: { user: true }
+		});
+		return { user: locals.user, stats, posts: allPosts };
+	}
 	const posts = await prisma.post.findMany({
 		orderBy: { createdAt: "desc" },
-		include: { user: true }
+		include: { user: true },
+		where: { userId: locals.user.id }
 	});
-	return { user: locals.user, stats, posts };
+	return { user: locals.user, posts };
 };

@@ -3,17 +3,25 @@ import { makeJsonResponse } from "$lib/server/util";
 import { prisma } from "$lib/server/prisma";
 import { z } from "zod";
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params, locals }) => {
+	if (!locals.user) {
+		return makeJsonResponse({ error: "You are not logged in." }, 403);
+	}
+
 	const { id } = params;
 
 	const post = await prisma.post.findUnique({
-		where: { id }
+		where: { id },
+		include: { user: true }
 	});
 
 	return makeJsonResponse({ post });
 };
 
-export const PUT: RequestHandler = async ({ request, params }) => {
+export const PUT: RequestHandler = async ({ request, params, locals }) => {
+	if (!locals.user) {
+		return makeJsonResponse({ error: "You are not logged in." }, 403);
+	}
 	const { id } = params;
 	const { title, body } = await request.json();
 

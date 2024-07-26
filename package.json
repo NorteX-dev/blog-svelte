@@ -37,6 +37,7 @@
 		"lucia": "^3.2.0",
 		"lucide-svelte": "^0.416.0",
 		"marked": "^13.0.2",
+		"svelte-sonner": "^0.3.27",
 		"zod": "^3.23.8"
 	}
 }
