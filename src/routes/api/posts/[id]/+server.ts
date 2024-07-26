@@ -39,3 +39,15 @@ export const PUT: RequestHandler = async ({ request, params, locals }) => {
 
 	return makeJsonResponse({ post }, 201);
 };
+
+export const DELETE: RequestHandler = async ({ params, locals }) => {
+	if (!locals.user) {
+		return makeJsonResponse({ error: "You are not logged in." }, 403);
+	}
+
+	const { id } = params;
+
+	await prisma.post.delete({ where: { id } });
+
+	return makeJsonResponse({ success: true });
+};

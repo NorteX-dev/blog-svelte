@@ -29,20 +29,17 @@
 				<a href="/" class="px-4 py-3 hover:underline">Home</a>
 			</li>
 			<li>
-				<a href="/posts" class="px-4 py-3 hover:underline">Posts</a>
-			</li>
-			<li>
 				{#if data.user}
 					<a
 						href="/dashboard"
-						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-gray-700"
+						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-neutral-700"
 					>
 						Dashboard
 					</a>
 				{:else}
 					<a
 						href="/login"
-						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-gray-700"
+						class="text-md w-fit items-center rounded-lg border border-transparent px-4 py-3 text-sm transition-colors hover:bg-neutral-700"
 					>
 						Login
 					</a>

@@ -8,10 +8,7 @@ export const GET: RequestHandler = async ({ cookies, url }) => {
 	const storedState = cookies.get("discord_state") ?? null;
 
 	if (!code || !state || !storedState || state !== storedState) {
-		return new Response(null, {
-			status: 403,
-			headers: { Location: `/?e=${encodeURIComponent("The code or state is missing! Please try again.")}` }
-		});
+		redirect(302, `/?e=${encodeURIComponent("The code or state is missing! Please try again.")}`);
 	}
 	try {
 		// Exchange code

@@ -7,7 +7,7 @@
 
 <div class="flex justify-between">
 	<h1 class="flex-grow text-xl">Welcome, {data.user.username}!</h1>
-	<a href="/api/logout" class="rounded bg-red-500 px-4 py-2 text-center text-sm font-medium text-white">Logout</a>
+	<a href="/logout" class="rounded bg-red-500 px-4 py-2 text-center text-sm font-medium text-white">Logout</a>
 </div>
 
 <div class="mt-4 flex gap-4">

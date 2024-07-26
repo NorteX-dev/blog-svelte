@@ -3,12 +3,13 @@ import { makeJsonResponse } from "$lib/server/util";
 import { prisma } from "$lib/server/prisma";
 import { z } from "zod";
 
-export const GET: RequestHandler = async ({ locals }) => {
+export const GET: RequestHandler = async ({ locals, url }) => {
+	const reverse = url.searchParams.get("reverse") === "true";
 	if (!locals.user) {
 		return makeJsonResponse({ error: "You are not logged in." }, 403);
 	}
 
-	const posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" }, include: { user: true } });
+	const posts = await prisma.post.findMany({ orderBy: { createdAt: reverse ? "asc" : "desc" }, include: { user: true } });
 
 	return makeJsonResponse({ posts });
 };
