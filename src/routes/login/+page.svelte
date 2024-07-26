@@ -7,7 +7,14 @@
 
 <h1 class="mb-4 text-center text-3xl font-bold">Welcome back!</h1>
 <a href="/register"><p class="text-center text-sm text-neutral-400">Not a user yet? <span class="text-blue-400">Register</span></p></a>
-<form method="post" class="flex flex-col" use:enhance>
+
+<a href="/login/discord">
+	<p class="mb-6 mt-4 w-full rounded bg-zinc-800 px-6 py-2 text-center text-sm font-medium text-white">Log in using Discord</p>
+</a>
+
+<p class="text-center text-xs font-bold uppercase text-neutral-400">or</p>
+
+<form method="post" class="mt-2 flex flex-col" use:enhance>
 	<label for="username" class="mb-2 block text-sm dark:text-white">Username</label>
 	<div class="relative">
 		<input

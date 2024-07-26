@@ -33,6 +33,7 @@
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^4.0.1",
 		"@prisma/client": "5.17.0",
+		"arctic": "^1.9.2",
 		"bcrypt": "^5.1.1",
 		"lucia": "^3.2.0",
 		"lucide-svelte": "^0.416.0",

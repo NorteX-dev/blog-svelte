@@ -54,6 +54,16 @@ export const actions: Actions = {
 			});
 		}
 
+		if (!existingUser.hashedPassword) {
+			return fail(400, {
+				errors: {
+					username: null,
+					password: "This account was created using a social login method. Please login using that method."
+				},
+				fields: bouncebackFields
+			});
+		}
+
 		// Validate password
 		const validPassword = await bcrypt.compare(dtoParsingResult.data.password, existingUser.hashedPassword);
 
