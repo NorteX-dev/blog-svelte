@@ -3,13 +3,18 @@ import { makeJsonResponse } from "$lib/server/util";
 import { prisma } from "$lib/server/prisma";
 import { z } from "zod";
 
-export const GET: RequestHandler = async () => {
-	const posts = await prisma.post.findMany();
+export const GET: RequestHandler = async ({ params }) => {
+	const { id } = params;
 
-	return makeJsonResponse({ posts });
+	const post = await prisma.post.findUnique({
+		where: { id }
+	});
+
+	return makeJsonResponse({ post });
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const PUT: RequestHandler = async ({ request, params }) => {
+	const { id } = params;
 	const { title, body } = await request.json();
 
 	const postDto = z.object({
@@ -19,12 +24,9 @@ export const POST: RequestHandler = async ({ request }) => {
 	const result = postDto.safeParse({ title, body });
 	if (!result.success) return makeJsonResponse({ error: result.error }, 400);
 
-	const post = await prisma.post.create({
-		data: {
-			title: title,
-			body: body,
-			userId: "1"
-		}
+	const post = await prisma.post.update({
+		where: { id },
+		data: { title, body }
 	});
 
 	return makeJsonResponse({ post }, 201);
