@@ -3,11 +3,8 @@ import { makeJsonResponse } from "$lib/server/util";
 import { prisma } from "$lib/server/prisma";
 import { z } from "zod";
 
-export const GET: RequestHandler = async ({ locals, url }) => {
+export const GET: RequestHandler = async ({ url }) => {
 	const reverse = url.searchParams.get("reverse") === "true";
-	if (!locals.user) {
-		return makeJsonResponse({ error: "You are not logged in." }, 403);
-	}
 
 	const posts = await prisma.post.findMany({ orderBy: { createdAt: reverse ? "asc" : "desc" }, include: { user: true } });
 
@@ -15,14 +12,11 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-	if (!locals.user) {
-		return makeJsonResponse({ error: "You are not logged in." }, 403);
-	}
-
-	const { title, body } = await request.json();
+	const { title, imageBase64, body } = await request.json();
 
 	const postDto = z.object({
 		title: z.string().min(1),
+		imageBase64: z.string().optional(),
 		body: z.string().min(1)
 	});
 	const result = postDto.safeParse({ title, body });
@@ -32,7 +26,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		data: {
 			title: title,
 			body: body,
-			userId: locals.user.id
+			image: imageBase64,
+			userId: locals.user!.id
 		}
 	});
 

@@ -37,13 +37,13 @@ export const actions: Actions = {
 		}
 
 		// if not owner of this post           and not admin
-		if (locals.user.id !== existingPost.id && !locals.user.admin) {
+		if (locals.user.id !== existingPost.userId && !locals.user.admin) {
 			return fail(403, { message: "You do not have permission to edit this post" });
 		}
-
 		const formData = await request.formData();
-		const title = formData.get("title");
-		const body = formData.get("body");
+		const title = formData.get("title") as string | null;
+		const image = formData.get("image") as File | null;
+		const body = formData.get("body") as string | null;
 
 		let bouncebackFields = {
 			title,
@@ -62,20 +62,34 @@ export const actions: Actions = {
 			return fail(400, {
 				errors: {
 					title: titleIssue?.message,
-					body: bodyIssue?.message
+					body: bodyIssue?.message,
+					image: null
 				},
 				fields: bouncebackFields
 			});
 		}
 
-		await prisma.post.update({
-			where: { id: (params as any).id },
-			data: {
-				title: title as string,
-				body: body as string
-			}
-		});
-
+		if (image && image.size > 0) {
+			const imgArrayBuffer = await image.arrayBuffer();
+			const imgBuffer = Buffer.from(imgArrayBuffer);
+			await prisma.post.update({
+				where: { id: (params as any).id },
+				data: {
+					title: title as string,
+					body: body as string,
+					image: imgBuffer.toString("base64")
+				}
+			});
+		} else {
+			await prisma.post.update({
+				where: { id: (params as any).id },
+				data: {
+					title: title as string,
+					body: body as string,
+					image: undefined
+				}
+			});
+		}
 		redirect(302, `/dashboard?m${encodeURIComponent("Post updated successfully.")}`);
 	}
 };

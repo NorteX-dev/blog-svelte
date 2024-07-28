@@ -6,7 +6,7 @@
 </script>
 
 <h1 class="mb-4 text-xl">Create blog post</h1>
-<form method="post" class="flex flex-col" use:enhance>
+<form method="post" class="flex flex-col" use:enhance enctype="multipart/form-data">
 	{#if form?.message}
 		<p class="mb-2 text-xs text-red-400">
 			{form.message}
@@ -25,6 +25,22 @@
 	{#if form?.errors?.title}
 		<p class="mb-2 text-xs text-red-400">
 			{form.errors.title}
+		</p>
+	{/if}
+
+	<label for="title" class="mb-2 block text-sm dark:text-white">Cover Image</label>
+	<div class="relative">
+		<input
+			type="file"
+			id="image"
+			name="image"
+			class="mb-2 block w-full rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-400 placeholder-neutral-500"
+			accept="image/png, image/jpeg, image/jpg"
+		/>
+	</div>
+	{#if form?.errors?.image}
+		<p class="mb-2 text-xs text-red-400">
+			{form.errors.image}
 		</p>
 	{/if}
 

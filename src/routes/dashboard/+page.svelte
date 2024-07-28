@@ -92,3 +92,9 @@
 		</table>
 	</div>
 </div>
+
+<div class="mb-16 mt-4 flex flex-grow flex-col justify-between rounded-lg border border-neutral-700 bg-neutral-900 p-6">
+	<h1 class="text-lg font-medium">Authenticate against Rest API</h1>
+	<p class="mb-2">To use the rest API as @{data.user.username}, available at <code>/api/*</code>, authenticate using this header:</p>
+	<pre class="rounded-lg bg-neutral-800 p-4 text-sm"><code class="text-neutral-200">Authorization: Bearer {data.sessionId}</code></pre>
+</div>

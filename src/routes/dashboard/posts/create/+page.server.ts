@@ -13,18 +13,27 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	default: async ({ request, locals }) => {
 		if (!locals.user) {
-			return fail(403, {
-				message: "You are not logged in."
-			});
+			return fail(403, { message: "You are not logged in." });
 		}
 		const formData = await request.formData();
-		const title = formData.get("title");
-		const body = formData.get("body");
+		const title = formData.get("title") as string | null;
+		const image = formData.get("image") as File;
+		const body = formData.get("body") as string | null;
 
 		let bouncebackFields = {
 			title,
 			body
 		};
+
+		const imgArrayBuffer = await image.arrayBuffer();
+		const imgBuffer = Buffer.from(imgArrayBuffer);
+
+		if (!image || !imgBuffer || image.size === 0) {
+			return fail(400, {
+				errors: { image: "Image is required", title: null, body: null },
+				fields: bouncebackFields
+			});
+		}
 
 		const postSubmitDto = z.object({
 			title: z.string().min(1, { message: "Title is required" }).max(255, { message: "Title is too long" }),
@@ -37,6 +46,7 @@ export const actions: Actions = {
 
 			return fail(400, {
 				errors: {
+					image: null,
 					title: titleIssue?.message,
 					body: bodyIssue?.message
 				},
@@ -46,8 +56,9 @@ export const actions: Actions = {
 
 		await prisma.post.create({
 			data: {
-				title: title as string,
-				body: body as string,
+				title: dtoParsingResult.data.title,
+				body: dtoParsingResult.data.body,
+				image: imgBuffer.toString("base64"),
 				userId: locals.user.id
 			}
 		});
