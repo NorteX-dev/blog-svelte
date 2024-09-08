@@ -1,20 +1,8 @@
-# Premier Studios Demo Trial project
-### Shortened documentation
+### Shortened documentation:
 
-This project is a demo trial project for Premier Studios. It is a simple blog application that allows users to create posts and view all posts.
+This project is a simple blog application that allows users to create posts and view all posts.
 
-### Visit the deployed page
-URL: https://premier-trial.vercel.app/
-
-To login on a regular account use,
-> Username: demo, Password: demo
-
-To login on an admin account use,
-> Username: admin, Password: admin
-
-You can also register an account yourself by visiting `/register` or following the links.
-
-### Technologies used in this trial
+### Stack used:
 
 - SvelteKit - a full-stack framework handling both back-end work and serving front-end.
 - Svelte - syntax to write front-end components.
@@ -68,6 +56,3 @@ Go to https://discord.dev -> Applications -> Your app -> OAuth2 -> Redirects -> 
 ### Front-end
 
 Build the front-end `npm run build`. It works just like any other Vite-bundled project.
-
-
-### Thank you for considering my application.
