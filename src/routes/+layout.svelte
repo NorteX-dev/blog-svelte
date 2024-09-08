@@ -3,6 +3,7 @@
 	import type { PageData } from "./$types";
 	import { toast, Toaster } from "svelte-sonner";
 	import { afterNavigate } from "$app/navigation";
+	import LoadingBar from "$lib/LoadingBar.svelte";
 
 	export let data: PageData;
 
@@ -18,6 +19,7 @@
 	afterNavigate(checkToastMessages);
 </script>
 
+<LoadingBar />
 <Toaster richColors expand />
 <main class="mx-auto max-w-3xl max-md:px-2">
 	<nav class="mb-4 flex w-full flex-col items-center justify-between py-8 text-neutral-200 md:flex-row">

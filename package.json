@@ -1,5 +1,6 @@
 {
-	"name": "premier-trial",
+	"name": "blog-page",
+	"description": "A simple svelte-based blog system.",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
